@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="result-layout">
+  <div class="result-card">
+    <div class="result-head">
+      <span class="eyebrow">Assessment result</span>
+      <h1>Lesion classification</h1>
+    </div>
+
+    {% if result and result.get("error") %}
+      <div class="alert alert-danger clinical-alert" role="alert">
+        <strong>Unable to complete analysis:</strong> {{result.get("error")}}
+      </div>
+    {% elif result %}
+      {% if result.get("demo") %}
+      <div class="alert alert-info clinical-alert" role="alert">
+        <strong>Demo mode:</strong> Model not available, showing a simulated result for interface testing.
+      </div>
+      {% endif %}
+
+      {% if result.get("class") %}
+      <div class="prediction-badge">
+        {{result.get("class")}}
+      </div>
+      {% endif %}
+
+      {% if result.get("probs") %}
+      <div class="table-wrap">
+        <table class="table clinical-table">
+          <thead>
+            <tr>
+              <th scope="col">Lesion type</th>
+              <th scope="col">Confidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in result.get("probs") %}
+            <tr>
+              <th scope="row">{{item[0]}}</th>
+              <td>{{item[1]}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    {% endif %}
+
+    {% if result and result.get("image") and result.get("image") != "error_placeholder" %}
+    <figure class="result-figure">
+      <img src="data:image/jpeg;base64, {{result.get("image")}}" class="figure-img img-thumbnail input-image result-image">
+    </figure>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

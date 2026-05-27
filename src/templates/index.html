@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero-card">
+    <div class="hero-copy">
+        <span class="eyebrow">Dermatology screening</span>
+        <h1>Benign or malignant?</h1>
+        <p class="lead-copy">Upload a lesion photo or paste an image URL for a fast classification review in a clean clinical workflow.</p>
+    </div>
+    <div class="status-pill">
+        <span class="status-dot"></span>
+        Structured image assessment
+    </div>
+</section>
+
+<div class="row form-grid">
+    <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="panel-card">
+            <div class="panel-head">
+                <h2>Image Upload</h2>
+                <p>Use a local image from the patient record or workstation.</p>
+            </div>
+
+            <form action="/upload" id="upload-file" method="post" enctype="multipart/form-data" class="clinical-form">
+                <label class="field-label" for="customFile">Select image</label>
+                <div class="custom-file medical-file">
+                    <input type="file" class="custom-file-input" name="file" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block medical-button" id="btn-predict">Analyze image</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel-card panel-card-alt">
+            <div class="panel-head">
+                <h2>Image URL</h2>
+                <p>Paste a secure image URL for remote review.</p>
+            </div>
+
+            <form action="/classify-url" id="submit-url" method="post" class="clinical-form">
+                <label class="field-label" for="url-input">Image link</label>
+                <input type="url" class="form-control medical-input" name="url" id="url-input" placeholder="https://example.com/lesion.jpg">
+
+                <button type="submit" class="btn btn-outline-primary btn-block medical-button">Analyze URL</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="note-strip">
+    Results are intended for screening support and should be interpreted in clinical context.
+</div>
+
+{% endblock %}
